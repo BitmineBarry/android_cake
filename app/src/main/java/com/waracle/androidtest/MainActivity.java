@@ -29,7 +29,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String JSON_URL = "https://gist.githubusercontent.com/t-reed/739df99e9d96700f17604a3971e701fa/raw/1d4dd9c5a0ec758ff5ae92b7b13fe4d57d34e1dc/waracle_cake-android-client";
+//    private static String JSON_URL = "https://gist.githubusercontent.com/t-reed/739df99e9d96700f17604a3971e701fa/raw/1d4dd9c5a0ec758ff5ae92b7b13fe4d57d34e1dc/waracle_cake-android-client";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         private static final String TAG = PlaceholderFragment.class.getSimpleName();
 
-        private ListView mListView;
+        private ListView    mListView;
+        private CakeAdapter   mAdapter;
 
         public PlaceholderFragment() { /**/ }
 
@@ -91,131 +92,21 @@ public class MainActivity extends AppCompatActivity {
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
 
-
-            ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
-                    R.array.list_content, android.R.layout.simple_list_item_1);
-            this.setListAdapter(adapter);
+//            This sets the list to the static test data if needed during testing.
+//            ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
+//                    R.array.list_content, android.R.layout.simple_list_item_1);
+//            this.setListAdapter(adapter);
 
             // Create and set the list adapter.
-//            mAdapter = new MyStubAdapter();
-            // llall ListFragment.setListAdapter(mAdapter);
-  //          mListView.setAdapter(mAdapter);
+            mAdapter = new CakeAdapter(getActivity());
 
-            // Load data from net.
-//            try {
-//                JSONArray array = loadData();
-//                mAdapter.setItems(array);
-//            } catch (IOException | JSONException e) {
-//                Log.e(TAG, e.getMessage());
-//            }
-        }
+            // Load data from net. We will use an AsyncTask to fetch from the network without
+            // using the system thread
+            AsyncFetchCakeData cakeData = new AsyncFetchCakeData();
+            cakeData.execute(mAdapter);
 
-
-        private JSONArray loadData() throws IOException, JSONException {
-            URL url = new URL(JSON_URL);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            try {
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-                // Can you think of a way to improve the performance of loading data
-                // using HTTP headers???
-
-                // Also, Do you trust any utils thrown your way????
-
-                byte[] bytes = StreamUtils.readUnknownFully(in);
-
-                // Read in charset of HTTP content.
-                String charset = parseCharset(urlConnection.getRequestProperty("Content-Type"));
-
-                // Convert byte array to appropriate encoded string.
-                String jsonText = new String(bytes, charset);
-
-                // Read string as JSON.
-                return new JSONArray(jsonText);
-            } finally {
-                urlConnection.disconnect();
-            }
-        }
-
-        /**
-         * Returns the charset specified in the Content-Type of this header,
-         * or the HTTP default (ISO-8859-1) if none can be found.
-         */
-        public static String parseCharset(String contentType) {
-            if (contentType != null) {
-                String[] params = contentType.split(",");
-                for (int i = 1; i < params.length; i++) {
-                    String[] pair = params[i].trim().split("=");
-                    if (pair.length == 2) {
-                        if (pair[0].equals("charset")) {
-                            return pair[1];
-                        }
-                    }
-                }
-            }
-            return "UTF-8";
-        }
-
-        private class MyAdapter extends BaseAdapter {
-
-            // Can you think of a better way to represent these items???
-            private JSONArray mItems;
-            private ImageLoader mImageLoader;
-
-            public MyAdapter() {
-                this(new JSONArray());
-            }
-
-            public MyAdapter(JSONArray items) {
-                mItems = items;
-                mImageLoader = new ImageLoader();
-            }
-
-            @Override
-            public int getCount() {
-                return mItems.length();
-            }
-
-            @Override
-            public Object getItem(int position) {
-                try {
-                    return mItems.getJSONObject(position);
-                } catch (JSONException e) {
-                    Log.e("", e.getMessage());
-                }
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @SuppressLint("ViewHolder")
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater = LayoutInflater.from(getActivity());
-                View root = inflater.inflate(R.layout.list_item_layout, parent, false);
-                if (root != null) {
-                    TextView title = (TextView) root.findViewById(R.id.title);
-                    TextView desc = (TextView) root.findViewById(R.id.desc);
-                    ImageView image = (ImageView) root.findViewById(R.id.image);
-                    try {
-                        JSONObject object = (JSONObject) getItem(position);
-                        title.setText(object.getString("title"));
-                        desc.setText(object.getString("desc"));
-                        mImageLoader.load(object.getString("image"), image);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                return root;
-            }
-
-            public void setItems(JSONArray items) {
-                mItems = items;
-            }
+            // set the adapter for the list
+            mListView.setAdapter(mAdapter);
         }
     }
 }

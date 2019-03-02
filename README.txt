@@ -80,6 +80,19 @@ The following are notes made along the way...
 	private static void setImageView(ImageView imageView, Bitmap bitmap)
 	    
     
-1. StreamUtils
+3. StreamUtils
+
+	
+=========================================================================================================
+
+move fetch of json data to AsyncTask
+
+move fetch of image to AsyncTask
+
+Sort out the layouts to make a reasonable list format that can be rotated.
+Stil need to confirm different font sizes and their effects
+Need to return the layout to reasonable colours. Colour highlighting has been used to identify layout areas.
+
+
 
 

@@ -15,7 +15,8 @@ import java.net.URL;
  * This is required for fetching the image without network access on the system thread.
  *
  * Here we use an asynchronous thread to fetch the image from the given URL.
- *
+ * The class requires a valid ImageView reference. This is used to render the image once loaded.
+ * .doInBackground takes the URL of the image as an input in the form of a String.
  *
  */
 public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
@@ -39,6 +40,7 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
         catch(Exception e)
         {
             Log.e(TAG, e.getMessage());
+            return null;
         }
 
         InputStream inputStream = null;
@@ -54,6 +56,10 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
 
             // Can you think of a way to make the entire
             // HTTP more efficient using HTTP headers??
+
+            // cache files and use the HTTP header to check for changes to the cache...
+            // TODO: investigate and implement image caching
+
             try {
                 dataBytes = StreamUtils.readUnknownFully(inputStream);
             } catch (IOException e)

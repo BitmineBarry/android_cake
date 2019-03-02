@@ -39,7 +39,7 @@ public class ImageLoader {
         // that have already been loaded previously??
 
         // BW - Need to cache the images in local storage but would also need to update based on the headers
-        asyncImage.doInBackground(url);
+        asyncImage.execute(url);
     }
 
     private static byte[] loadImageData(String url) throws IOException {
