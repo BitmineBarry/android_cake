@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         private static final String TAG = PlaceholderFragment.class.getSimpleName();
 
         private ListView mListView;
-        private MyAdapter mAdapter;
 
         public PlaceholderFragment() { /**/ }
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            mListView = (ListView) rootView.findViewById(R.id.list);
+            mListView = (ListView) rootView.findViewById(android.R.id.list);
             return rootView;
         }
 
@@ -91,17 +91,23 @@ public class MainActivity extends AppCompatActivity {
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
 
+
+            ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
+                    R.array.list_content, android.R.layout.simple_list_item_1);
+            this.setListAdapter(adapter);
+
             // Create and set the list adapter.
-            mAdapter = new MyAdapter();
-            mListView.setAdapter(mAdapter);
+//            mAdapter = new MyStubAdapter();
+            // llall ListFragment.setListAdapter(mAdapter);
+  //          mListView.setAdapter(mAdapter);
 
             // Load data from net.
-            try {
-                JSONArray array = loadData();
-                mAdapter.setItems(array);
-            } catch (IOException | JSONException e) {
-                Log.e(TAG, e.getMessage());
-            }
+//            try {
+//                JSONArray array = loadData();
+//                mAdapter.setItems(array);
+//            } catch (IOException | JSONException e) {
+//                Log.e(TAG, e.getMessage());
+//            }
         }
 
 

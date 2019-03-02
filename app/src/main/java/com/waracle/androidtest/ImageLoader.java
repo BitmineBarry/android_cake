@@ -2,6 +2,7 @@ package com.waracle.androidtest;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ public class ImageLoader {
      * @param imageView view to set image too.
      */
     public void load(String url, ImageView imageView) {
+        AsyncImageLoader asyncImage = new AsyncImageLoader(imageView);
+
         if (TextUtils.isEmpty(url)) {
             throw new InvalidParameterException("URL is empty!");
         }
@@ -35,14 +38,12 @@ public class ImageLoader {
         // Can you think of a way to improve loading of bitmaps
         // that have already been loaded previously??
 
-        try {
-            setImageView(imageView, convertToBitmap(loadImageData(url)));
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
+        // BW - Need to cache the images in local storage but would also need to update based on the headers
+        asyncImage.doInBackground(url);
     }
 
     private static byte[] loadImageData(String url) throws IOException {
+
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         InputStream inputStream = null;
         try {

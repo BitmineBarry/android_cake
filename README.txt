@@ -25,3 +25,61 @@ This is your opportunity to show us how you think an Android app should be archi
 
 The test should take around 2 hours, certainly no longer than 3 hours. Good luck!
 
+
+=========================================================================================================
+Possible libraries (not used in this solution) :
+
+Picasso - library for image download and caching
+
+
+
+=========================================================================================================
+
+## Notes
+The following are notes made along the way...
+
+---
+
+### original structure
+
+1. MainActivity.java
+
+ 	public class MainActivity extends AppCompatActivity    
+      	protected void onCreate(Bundle savedInstanceState)  
+      	public boolean onCreateOptionsMenu(Menu menu) 
+	  	public boolean onOptionsItemSelected(MenuItem item)  
+
+ 	public static class PlaceholderFragment extends ListFragment
+      	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
+        public void onActivityCreated(Bundle savedInstanceState)
+        private JSONArray loadData() throws IOException, JSONException 
+        public static String parseCharset(String contentType) 
+
+	private class MyAdapter extends BaseAdapter   
+            public MyAdapter()   
+            public MyAdapter(JSONArray items)  
+            public Object getItem(int position)
+            public long getItemId(int position) 
+            public View getView(int position, View convertView, ViewGroup parent)  
+            public void setItems(JSONArray items) 
+  
+  
+  
+   
+2. ImageLoader
+	public class ImageLoader 
+	
+	    private static final String TAG = ImageLoader.class.getSimpleName();
+	
+	    public ImageLoader() 
+	
+	    public void load(String url, ImageView imageView) 
+	private static byte[] loadImageData(String url) throws IOException 
+	
+	private static Bitmap convertToBitmap(byte[] data) 
+	private static void setImageView(ImageView imageView, Bitmap bitmap)
+	    
+    
+1. StreamUtils
+
+
