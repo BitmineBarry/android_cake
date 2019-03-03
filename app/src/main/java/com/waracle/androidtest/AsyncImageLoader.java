@@ -2,6 +2,7 @@ package com.waracle.androidtest;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.http.HttpResponseCache;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 
 /***
  * This is required for fetching the image without network access on the system thread.
@@ -26,12 +28,15 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
 
     private ImageView   mImageView;
     private String      mUrl;
+    private long        mStart;
 
     @Override
     protected byte[] doInBackground(String... urls) {
         // fetch the data from the remote URL
         HttpURLConnection connection = null;
         byte[] dataBytes;
+
+        mStart = System.currentTimeMillis();
 
         mUrl = urls[0];
         try {
@@ -80,15 +85,30 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
     @Override
     protected void onPostExecute(byte[] dataStream)
     {
+        long    duration = System.currentTimeMillis() - mStart;
+
         // What if we didn't receive a dataStream from the remote site ???
         if (dataStream == null)
         {
             // set image to a default here perhaps
             Log.w(TAG, "URL "+ mUrl + "did not fetch a dataStream for an image");
+            // we could present a default bitmap here...
         }
         else {
             // now we can set the ImageView's bitmap to the image that we have received
             // we do it here because this is back on the UI thread.
+            Log.e(TAG, "Loaded image from " + mUrl);
+            Log.w(TAG, "Loaded image of size " + dataStream.length + " bytes is now complete.");
+            Log.w(TAG, "image took " + duration + "ms");
+
+            HttpResponseCache cache = HttpResponseCache.getInstalled();
+            if (cache != null) {
+                Log.w(TAG, "requests " + cache.getRequestCount() + " hits " + cache.getHitCount() + " Net accesses " + cache.getNetworkCount());
+            }
+            else
+            {
+                Log.e(TAG, "No cache installed !!!!");
+            }
 
             Bitmap bitmap = BitmapFactory.decodeByteArray(dataStream, 0, dataStream.length);
             mImageView.setImageBitmap(bitmap);

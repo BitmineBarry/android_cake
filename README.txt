@@ -94,5 +94,49 @@ Stil need to confirm different font sizes and their effects
 Need to return the layout to reasonable colours. Colour highlighting has been used to identify layout areas.
 
 
+Cakes seem to be repeated in the list.
+I fetched the JSON from the URL with firefox to confirm the list.
+The list does repeat the same 5 cakes 4 times.
+The JSON list is :
+[  
+   {  
+      "title":"Lemon cheesecake",
+      "desc":"A cheesecake made of lemon",
+      "image":"https://s3-eu-west-1.amazonaws.com/s3.mediafileserver.co.uk/carnation/WebFiles/RecipeImages/lemoncheesecake_lg.jpg"
+   },
+   {  
+      "title":"victoria sponge",
+      "desc":"sponge with jam",
+      "image":"https://upload.wikimedia.org/wikipedia/commons/0/05/111rfyh.jpg"
+   },
+   {  
+      "title":"Carrot cake",
+      "desc":"Bugs bunnys favourite",
+      "image":"https://hips.hearstapps.com/del.h-cdn.co/assets/18/08/1519321610-carrot-cake-vertical.jpg"
+   },
+   {  
+      "title":"Banana cake",
+      "desc":"Donkey kongs favourite",
+      "image":"http://ukcdn.ar-cdn.com/recipes/xlarge/ff22df7f-dbcd-4a09-81f7-9c1d8395d936.jpg"
+   },
+   {  
+      "title":"Birthday cake",
+      "desc":"a yearly treat",
+      "image":"https://www.frenchvillagebakery.co.uk/databaseimages/prd_8594342__painted_pink_and_gold_cake_512x640.jpg"
+   },
+.
+.
+.
+]
+
+
+=====================================================================================
+Add HTTP caching to the application...
+Images load slowly because the carrot cake image is very large. 
+Approx 770k. resolution of 2500x 3750. This takes about 2 seconds to fetch from the cache and will take time to scale to the required size. 
+
+It would help, in this simple instance, to find a way of caching the reduced images ready for the display component.
+
+=====================================================================================
 
 

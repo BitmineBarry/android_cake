@@ -1,6 +1,7 @@
 package com.waracle.androidtest;
 
 import android.annotation.SuppressLint;
+import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -28,13 +30,24 @@ import java.net.URL;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = AsyncImageLoader.class.getSimpleName();
 
-//    private static String JSON_URL = "https://gist.githubusercontent.com/t-reed/739df99e9d96700f17604a3971e701fa/raw/1d4dd9c5a0ec758ff5ae92b7b13fe4d57d34e1dc/waracle_cake-android-client";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        // setup cache management for HTTP/HTTPS for this application
+        try {
+            File httpCacheDir = new File(getCacheDir(), "http");
+            long httpCacheSize = 30 * 1024 * 1024;
+            HttpResponseCache.install(httpCacheDir, httpCacheSize);
+        } catch (IOException e) {
+            Log.w(TAG, "HTTP response cache installation failed:" + e);
+        }
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -62,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        // remove the cache for this application
+        HttpResponseCache cache = HttpResponseCache.getInstalled();
+        if (cache != null) {
+            cache.flush();
+        }
+        super.onStop();
     }
 
     /**

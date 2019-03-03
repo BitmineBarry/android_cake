@@ -37,8 +37,6 @@ public class ImageLoader {
 
         // Can you think of a way to improve loading of bitmaps
         // that have already been loaded previously??
-
-        // BW - Need to cache the images in local storage but would also need to update based on the headers
         asyncImage.execute(url);
     }
 
