@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.net.http.HttpResponseCache;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -37,7 +38,6 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
         byte[] dataBytes;
 
         mStart = System.currentTimeMillis();
-
         mUrl = urls[0];
         try {
             connection = (HttpURLConnection) new URL(mUrl).openConnection();
@@ -83,6 +83,15 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        // clear any existing image...
+        if (mImageView != null)
+            mImageView.setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
     protected void onPostExecute(byte[] dataStream)
     {
         long    duration = System.currentTimeMillis() - mStart;
@@ -110,6 +119,8 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
                 Log.e(TAG, "No cache installed !!!!");
             }
 
+            if (mImageView != null)
+                mImageView.setVisibility(View.VISIBLE);
             Bitmap bitmap = BitmapFactory.decodeByteArray(dataStream, 0, dataStream.length);
             mImageView.setImageBitmap(bitmap);
         }

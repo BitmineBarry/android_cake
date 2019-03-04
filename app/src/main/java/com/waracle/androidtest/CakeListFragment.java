@@ -67,7 +67,9 @@ public class CakeListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_cakelist_list, container, false);
+        CakeListRecyclerViewAdapter thisAdapter;
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -78,7 +80,9 @@ public class CakeListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new CakeListRecyclerViewAdapter(jsonURL, mListener));
+
+            thisAdapter = new CakeListRecyclerViewAdapter(jsonURL, mListener);
+            recyclerView.setAdapter(thisAdapter);
         }
         return view;
     }

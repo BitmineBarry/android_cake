@@ -2,13 +2,18 @@ package com.waracle.androidtest;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.waracle.androidtest.CakeListFragment.OnListFragmentInteractionListener;
 
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,14 +22,24 @@ import java.util.List;
  * TODO: Replace the implementation with code for your data type.
  */
 public class CakeListRecyclerViewAdapter extends RecyclerView.Adapter<CakeListRecyclerViewAdapter.ViewHolder> {
+    private static final String TAG = CakeListRecyclerViewAdapter.class.getSimpleName();
 
     private final String                            mUrl;
     private final OnListFragmentInteractionListener mListener;
-    private List<CakeDataItem>                      mCakeData;
+    private List<CakeDataItem>                      mCakeData = new ArrayList<CakeDataItem>();
 
     public CakeListRecyclerViewAdapter(String url, OnListFragmentInteractionListener listener) {
+        CakeDataItem thisCake;
         mUrl = url;
         mListener = listener;
+
+        AsyncFetchCakeData cakeData = new AsyncFetchCakeData();
+        cakeData.execute(this);
+    }
+
+    // receive the list of info from the AsyncFetchCakeData
+    public void setItems(ArrayList<CakeDataItem> items) {
+        mCakeData = items;
     }
 
     @Override
@@ -37,8 +52,15 @@ public class CakeListRecyclerViewAdapter extends RecyclerView.Adapter<CakeListRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mCakeData.get(position);
-        holder.mIdView.setText("title");
-        holder.mContentView.setText("description");
+        holder.mTitleView.setText(mCakeData.get(position).getTitle());
+        holder.mDescView.setText(mCakeData.get(position).getDescription());
+
+        // set the image here from the URL
+        AsyncImageLoader asyncImage = new AsyncImageLoader(holder.mImageView);
+        if (TextUtils.isEmpty(holder.mItem.getUrl())) {
+            throw new InvalidParameterException("URL is empty!");
+        }
+        asyncImage.execute(holder.mItem.getUrl());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,20 +81,23 @@ public class CakeListRecyclerViewAdapter extends RecyclerView.Adapter<CakeListRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final ImageView mImageView;
+        public final TextView mTitleView;
+        public final TextView mDescView;
         public CakeDataItem mItem;
 
         public ViewHolder(View view) {
             super(view);
+
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mImageView = (ImageView) view.findViewById(R.id.image);
+            mTitleView = (TextView) view.findViewById(R.id.title);
+            mDescView = (TextView) view.findViewById(R.id.desc);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTitleView.getText() + "'";
         }
     }
 }

@@ -18,7 +18,6 @@ import java.io.IOException;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 public class MainActivity extends Activity implements CakeListFragment.OnListFragmentInteractionListener {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
 
@@ -40,7 +39,7 @@ public class MainActivity extends Activity implements CakeListFragment.OnListFra
 
         if (savedInstanceState == null) {
                     getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new CakeListFragment())
                     .commit();
         }
     }
@@ -65,7 +64,6 @@ public class MainActivity extends Activity implements CakeListFragment.OnListFra
 
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -96,14 +94,14 @@ public class MainActivity extends Activity implements CakeListFragment.OnListFra
      * Improve any performance issues
      * Use good coding practices to make code more secure
      */
-    public static class PlaceholderFragment extends ListFragment {
+    public static class REMOVED_PlaceholderFragment extends ListFragment {
 
 //        private static final String TAG = PlaceholderFragment.class.getSimpleName();
 
         private ListView    mListView;
         private CakeAdapter   mAdapter;
 
-        public PlaceholderFragment() { /**/ }
+//        public PlaceholderFragment() { /**/ }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,10 +109,8 @@ public class MainActivity extends Activity implements CakeListFragment.OnListFra
             View rootView;
 
             // original list view
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            mListView = rootView.findViewById(android.R.id.list);
-//            rootView = inflater.inflate(R.layout.fragment_cakelist_list, container, false);
-//            mListView = rootView.findViewById(android.R.id.cake_recycler_view);
+            rootView = inflater.inflate(R.layout.fragment_cakelist_list, container, false);
+            mListView = rootView.findViewById(R.id.cake_recycler_view);
             return rootView;
         }
 
@@ -132,11 +128,11 @@ public class MainActivity extends Activity implements CakeListFragment.OnListFra
 
             // Load data from net. We will use an AsyncTask to fetch from the network without
             // using the system thread
-            AsyncFetchCakeData cakeData = new AsyncFetchCakeData();
-            cakeData.execute(mAdapter);
+//            AsyncFetchCakeData cakeData = new AsyncFetchCakeData();
+//            cakeData.execute(mAdapter);
 
             // set the adapter for the list
-            mListView.setAdapter(mAdapter);
+//            mListView.setAdapter(mAdapter);
         }
     }
 }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 /***
@@ -21,10 +22,10 @@ import java.net.URL;
  *
  *
  */
-public final class AsyncFetchCakeData extends AsyncTask<CakeAdapter, Void, Boolean> {
+public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdapter, Void, Boolean> {
     private static final String TAG = AsyncFetchCakeData.class.getSimpleName();
     private static String JSON_URL = "https://gist.githubusercontent.com/t-reed/739df99e9d96700f17604a3971e701fa/raw/1d4dd9c5a0ec758ff5ae92b7b13fe4d57d34e1dc/waracle_cake-android-client";
-    private CakeAdapter mCakeAdapter = null;
+    private CakeListRecyclerViewAdapter mCakeListRecyclerViewAdapter = null;
 
     public AsyncFetchCakeData(){ }
 
@@ -81,17 +82,25 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeAdapter, Void, Boole
 
 
     @Override
-    protected Boolean doInBackground(CakeAdapter... adapter) {
+    protected Boolean doInBackground(CakeListRecyclerViewAdapter... adapter) {
+        ArrayList<CakeDataItem>  cakeData = new ArrayList<CakeDataItem>();
+
         Log.e(TAG, "Thread ID "+ Thread.currentThread());
-        mCakeAdapter = adapter[0];
+        mCakeListRecyclerViewAdapter = adapter[0];
 
             try {
                 JSONArray array = loadData();
-                mCakeAdapter.setItems(array);
+                // convert the JSON into CakeDataItems so that the API for the Adapter remains abstracted.
+                for (int i = 0; i < array.length(); i++)
+                {
+                    cakeData.add(new CakeDataItem(array.getJSONObject(i).getString("title"),
+                                                array.getJSONObject(i).getString("desc"),
+                                                array.getJSONObject(i).getString("image")));
+
+                }
+                mCakeListRecyclerViewAdapter.setItems(cakeData);
             } catch (IOException | JSONException e) {
                 Log.e(TAG, e.getMessage());
-
-//                 TODO: here we could add a message to the fragment to display what happened
             }
 
             return false;
@@ -101,7 +110,7 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeAdapter, Void, Boole
     @Override
     protected void onPostExecute(Boolean status)
     {
-        mCakeAdapter.notifyDataSetChanged();
+        mCakeListRecyclerViewAdapter.notifyDataSetChanged();
         status = status;
     }
 }
