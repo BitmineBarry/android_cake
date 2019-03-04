@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         // setup cache management for HTTP/HTTPS for this application
         try {
             File httpCacheDir = new File(getCacheDir(), "http");
-            long httpCacheSize = 30 * 1024 * 1024;
+            long httpCacheSize = 3 * 1024 * 1024;
             HttpResponseCache.install(httpCacheDir, httpCacheSize);
         } catch (IOException e) {
             Log.w(TAG, "HTTP response cache installation failed:" + e);
@@ -58,6 +58,8 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
+            // TODO: cause a flush of the HTTP cache here and start data collection again
+
             return true;
         }
 
