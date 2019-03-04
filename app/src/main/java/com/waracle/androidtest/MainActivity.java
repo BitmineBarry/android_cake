@@ -15,13 +15,16 @@ import android.widget.ListView;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends Activity implements CakeListFragment.OnListFragmentInteractionListener {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -76,6 +79,16 @@ public class MainActivity extends Activity {
         super.onStop();
     }
 
+    /*** implementation of interface OnListFragmentInteractionListener
+     *
+     */
+    public void onListFragmentInteraction(CakeDataItem item)
+    {
+        Log.i(TAG, "onListFragmentInteraction called for item " + item);
+    }
+
+
+
     /**
      * Fragment is responsible for loading in some JSON and
      * then displaying a list of cakes with images.
@@ -96,8 +109,12 @@ public class MainActivity extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView;
+
+            // original list view
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             mListView = rootView.findViewById(android.R.id.list);
+//            rootView = inflater.inflate(R.layout.fragment_cakelist_list, container, false);
+//            mListView = rootView.findViewById(android.R.id.cake_recycler_view);
             return rootView;
         }
 
