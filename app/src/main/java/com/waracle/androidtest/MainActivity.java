@@ -1,35 +1,22 @@
 package com.waracle.androidtest;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ListFragment;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
 
 
@@ -49,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+                    getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
@@ -96,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public static class PlaceholderFragment extends ListFragment {
 
-        private static final String TAG = PlaceholderFragment.class.getSimpleName();
+//        private static final String TAG = PlaceholderFragment.class.getSimpleName();
 
         private ListView    mListView;
         private CakeAdapter   mAdapter;
@@ -106,8 +93,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            mListView = (ListView) rootView.findViewById(android.R.id.list);
+            View rootView;
+            rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            mListView = rootView.findViewById(android.R.id.list);
             return rootView;
         }
 

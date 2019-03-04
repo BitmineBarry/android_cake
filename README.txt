@@ -133,10 +133,39 @@ The JSON list is :
 =====================================================================================
 Add HTTP caching to the application...
 Images load slowly because the carrot cake image is very large. 
-Approx 770k. resolution of 2500x 3750. This takes about 2 seconds to fetch from the cache and will take time to scale to the required size. 
+Approx 770k. resolution of 2500 x 3750. This takes about 2 seconds to fetch from the cache and will take time to scale to the required size. 
 
 It would help, in this simple instance, to find a way of caching the reduced images ready for the display component.
 
 =====================================================================================
 
+Migrate to a ViewModel Architecture.
+
+              ---------------------
+		      | Activity/Fragment |
+              ---------------------
+                        | 
+                        | 
+           ---------------------------
+           |  ViewModel  - LiveData  |
+           ---------------------------
+                        | 
+                        | 
+               -------------------
+ 		   ----| cake repository |------
+           |   -------------------     |
+           |                           |
+       ---------              ----------------------
+       | model |              | remote data source |
+       ---------              ----------------------
+
+
+
+=====================================================================================
+
+Material design components.  recycler view.
+
+
+
+=====================================================================================
 
