@@ -28,8 +28,6 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdap
     private CakeListRecyclerViewAdapter mCakeListRecyclerViewAdapter = null;
 
     public AsyncFetchCakeData(){ }
-
-//    private CakeAdapter mAdapter;
     private String      mUrl;
 
     /**
@@ -80,40 +78,33 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdap
         return null;
     }
 
-
     @Override
     protected Boolean doInBackground(CakeListRecyclerViewAdapter... adapter) {
         ArrayList<CakeDataItem>  cakeData = new ArrayList<CakeDataItem>();
 
-        Log.e(TAG, "Thread ID "+ Thread.currentThread());
         mCakeListRecyclerViewAdapter = adapter[0];
 
-            try {
-                JSONArray array = loadData();
-                // convert the JSON into CakeDataItems so that the API for the Adapter remains abstracted.
-                for (int i = 0; i < array.length(); i++)
-                {
-                    cakeData.add(new CakeDataItem(array.getJSONObject(i).getString("title"),
+        try {
+            JSONArray array = loadData();
+            // convert the JSON into CakeDataItems so that the API for the Adapter remains abstracted.
+            for (int i = 0; i < array.length(); i++)
+            {
+                cakeData.add(new CakeDataItem(array.getJSONObject(i).getString("title"),
                                                 array.getJSONObject(i).getString("desc"),
                                                 array.getJSONObject(i).getString("image")));
 
-                }
-                mCakeListRecyclerViewAdapter.setItems(cakeData);
-            } catch (IOException | JSONException e) {
-                Log.e(TAG, e.getMessage());
             }
-
-            return false;
+            mCakeListRecyclerViewAdapter.setItems(cakeData);
+        } catch (IOException | JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return false;
     }
-
 
     @Override
     protected void onPostExecute(Boolean status)
     {
-//        mCakeListRecyclerViewAdapter.notifyDataSetChanged();
-        //TODO: check this notify requirement
-
-        status = status;
+        mCakeListRecyclerViewAdapter.notifyDataSetChanged();
     }
 }
 

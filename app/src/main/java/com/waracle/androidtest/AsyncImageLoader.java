@@ -85,10 +85,9 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        // clear any existing image...
-        if (mImageView != null)
-            mImageView.setVisibility(View.INVISIBLE);
 
+        // clear any existing image... better to see no image rather than the wrong image.
+        mImageView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -101,14 +100,14 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
         {
             // set image to a default here perhaps
             Log.w(TAG, "URL "+ mUrl + "did not fetch a dataStream for an image");
-            // we could present a default bitmap here...
+            // TODO: we could present a default bitmap here just to prevent the image space being empty
         }
         else {
             // now we can set the ImageView's bitmap to the image that we have received
             // we do it here because this is back on the UI thread.
-            Log.e(TAG, "Loaded image from " + mUrl);
-            Log.w(TAG, "Loaded image of size " + dataStream.length + " bytes is now complete.");
-            Log.w(TAG, "image took " + duration + "ms");
+//            Log.i(TAG, "Loaded image from " + mUrl);
+//            Log.i(TAG, "Loaded image of size " + dataStream.length + " bytes is now complete.");
+//            Log.i(TAG, "image took " + duration + "ms");
 
             HttpResponseCache cache = HttpResponseCache.getInstalled();
             if (cache != null) {
@@ -118,11 +117,9 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
             {
                 Log.e(TAG, "No cache installed !!!!");
             }
-
-            if (mImageView != null)
-                mImageView.setVisibility(View.VISIBLE);
             Bitmap bitmap = BitmapFactory.decodeByteArray(dataStream, 0, dataStream.length);
             mImageView.setImageBitmap(bitmap);
+            mImageView.setVisibility(View.VISIBLE);
         }
     }
 }

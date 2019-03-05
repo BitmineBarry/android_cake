@@ -139,7 +139,7 @@ It would help, in this simple instance, to find a way of caching the reduced ima
 
 =====================================================================================
 
-Migrate to a ViewModel Architecture.
+Intention is to Migrate to a ViewModel Architecture.
 
               ---------------------
 		      | Activity/Fragment |
@@ -161,9 +161,22 @@ Migrate to a ViewModel Architecture.
 
 
 
+
+
 =====================================================================================
 
+=====================================================================================
 Material design components.  recycler view.
+
+=====================================================================================
+Isues :
+
+ List scrolling speed is poor. Partly caused by the large image sizes. Once moved to MVVM I would be inclined to add a cache option for scaled bitmaps that are small and easily accessed. The full size images could be cached but this would be a lot of memory space on the local device so not ideal. The list of cakes from the server could have 100s or 1000s of entries so caching would need to be limited. The Glide library is recommended but Picasso, 
+
+ Incorrect images can be displayed in the list for a short period. - This appears to be when scrolling
+ multiple times. The assumption is that the same image view is being used for multiple downloads. These are not terminated as the next one is started so as each Asynchronous image download completes, the image is displayed. 
+
+Error conditions need to be handled. No network for instance...
 
 
 
