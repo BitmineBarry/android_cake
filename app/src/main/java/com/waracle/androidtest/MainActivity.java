@@ -15,8 +15,8 @@ import android.widget.ListView;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+//import androidx.recyclerview.widget.LinearLayoutManager;
+//import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends Activity implements CakeListFragment.OnListFragmentInteractionListener {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
@@ -85,54 +85,4 @@ public class MainActivity extends Activity implements CakeListFragment.OnListFra
         Log.i(TAG, "onListFragmentInteraction called for item " + item);
     }
 
-
-
-    /**
-     * Fragment is responsible for loading in some JSON and
-     * then displaying a list of cakes with images.
-     * Fix any crashes
-     * Improve any performance issues
-     * Use good coding practices to make code more secure
-     */
-    public static class REMOVED_PlaceholderFragment extends ListFragment {
-
-//        private static final String TAG = PlaceholderFragment.class.getSimpleName();
-
-        private ListView    mListView;
-        private CakeAdapter   mAdapter;
-
-//        public PlaceholderFragment() { /**/ }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView;
-
-            // original list view
-            rootView = inflater.inflate(R.layout.fragment_cakelist_list, container, false);
-            mListView = rootView.findViewById(R.id.cake_recycler_view);
-            return rootView;
-        }
-
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-
-//            This sets the list to the static test data if needed during testing.
-//            ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
-//                    R.array.list_content, android.R.layout.simple_list_item_1);
-//            this.setListAdapter(adapter);
-
-            // Create and set the list adapter.
-            mAdapter = new CakeAdapter(getActivity());
-
-            // Load data from net. We will use an AsyncTask to fetch from the network without
-            // using the system thread
-//            AsyncFetchCakeData cakeData = new AsyncFetchCakeData();
-//            cakeData.execute(mAdapter);
-
-            // set the adapter for the list
-//            mListView.setAdapter(mAdapter);
-        }
-    }
 }

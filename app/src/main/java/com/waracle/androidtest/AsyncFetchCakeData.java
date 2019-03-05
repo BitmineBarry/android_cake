@@ -110,7 +110,9 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdap
     @Override
     protected void onPostExecute(Boolean status)
     {
-        mCakeListRecyclerViewAdapter.notifyDataSetChanged();
+//        mCakeListRecyclerViewAdapter.notifyDataSetChanged();
+        //TODO: check this notify requirement
+
         status = status;
     }
 }
