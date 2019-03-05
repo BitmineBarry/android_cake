@@ -86,13 +86,20 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdap
 
         try {
             JSONArray array = loadData();
-            // convert the JSON into CakeDataItems so that the API for the Adapter remains abstracted.
-            for (int i = 0; i < array.length(); i++)
-            {
-                cakeData.add(new CakeDataItem(array.getJSONObject(i).getString("title"),
-                                                array.getJSONObject(i).getString("desc"),
-                                                array.getJSONObject(i).getString("image")));
+            if (array != null) {
+                // convert the JSON into CakeDataItems so that the API for the Adapter remains abstracted.
+                for (int i = 0; i < array.length(); i++) {
+                    cakeData.add(new CakeDataItem(array.getJSONObject(i).getString("title"),
+                            array.getJSONObject(i).getString("desc"),
+                            array.getJSONObject(i).getString("image")));
 
+                }
+            }
+            else
+            {
+                // TODO: We shoudl check if the network is off and pop up a dialog with a link to settings
+                //       for now we just cause a message to display on the view.
+                cakeData.add(new CakeDataItem("No list data. ", "Check you network connection.", " "));
             }
             mCakeListRecyclerViewAdapter.setItems(cakeData);
         } catch (IOException | JSONException e) {
