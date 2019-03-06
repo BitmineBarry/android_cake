@@ -81,7 +81,7 @@ public class CakeListFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            thisAdapter = new CakeListRecyclerViewAdapter(jsonURL, mListener);
+            thisAdapter = new CakeListRecyclerViewAdapter(getActivity().getApplication(), jsonURL, mListener);
             recyclerView.setAdapter(thisAdapter);
         }
         return view;

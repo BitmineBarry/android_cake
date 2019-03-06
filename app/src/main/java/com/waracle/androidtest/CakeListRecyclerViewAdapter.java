@@ -2,6 +2,8 @@ package com.waracle.androidtest;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,13 +29,14 @@ public class CakeListRecyclerViewAdapter extends RecyclerView.Adapter<CakeListRe
     private final String                            mUrl;
     private final OnListFragmentInteractionListener mListener;
     private List<CakeDataItem>                      mCakeData = new ArrayList<CakeDataItem>();
+    private Application                             mAppContext = null;
 
-    public CakeListRecyclerViewAdapter(String url, OnListFragmentInteractionListener listener) {
+    public CakeListRecyclerViewAdapter(Application context, String url, OnListFragmentInteractionListener listener) {
         CakeDataItem thisCake;
         mUrl = url;
         mListener = listener;
-
-        AsyncFetchCakeData cakeData = new AsyncFetchCakeData();
+        mAppContext = context;
+        AsyncFetchCakeData cakeData = new AsyncFetchCakeData(mAppContext);
         cakeData.execute(this);
     }
 

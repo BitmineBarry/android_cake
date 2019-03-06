@@ -1,22 +1,15 @@
 package com.waracle.androidtest;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
 import java.io.File;
 import java.io.IOException;
 
-//import androidx.recyclerview.widget.LinearLayoutManager;
-//import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends Activity implements CakeListFragment.OnListFragmentInteractionListener {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
@@ -60,8 +53,8 @@ public class MainActivity extends Activity implements CakeListFragment.OnListFra
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            // TODO: cause a flush of the HTTP cache here and start data collection again
-
+            HttpResponseCache cache = HttpResponseCache.getInstalled();
+            cache.flush();
             return true;
         }
         return super.onOptionsItemSelected(item);

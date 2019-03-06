@@ -1,10 +1,14 @@
 package com.waracle.androidtest;
 
+import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +16,7 @@ import org.json.JSONException;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,9 +30,15 @@ import java.util.ArrayList;
 public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdapter, Void, Boolean> {
     private static final String TAG = AsyncFetchCakeData.class.getSimpleName();
     private static String JSON_URL = "https://gist.githubusercontent.com/t-reed/739df99e9d96700f17604a3971e701fa/raw/1d4dd9c5a0ec758ff5ae92b7b13fe4d57d34e1dc/waracle_cake-android-client";
-    private CakeListRecyclerViewAdapter mCakeListRecyclerViewAdapter = null;
 
-    public AsyncFetchCakeData(){ }
+    private CakeListRecyclerViewAdapter mCakeListRecyclerViewAdapter = null;
+    private Boolean                     mShowNoNetToast = false;
+    private Application                 mAppContext = null;
+
+    public AsyncFetchCakeData(Application context) {
+        mAppContext = context;
+    }
+
     private String      mUrl;
 
     /**
@@ -97,8 +108,9 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdap
             }
             else
             {
-                // TODO: We shoudl check if the network is off and pop up a dialog with a link to settings
-                //       for now we just cause a message to display on the view.
+                //  for now we just cause a message to display on the view.
+                //  it would be nice to present a network settings option.
+                mShowNoNetToast = true;
                 cakeData.add(new CakeDataItem("No list data. ", "Check you network connection.", " "));
             }
             mCakeListRecyclerViewAdapter.setItems(cakeData);
@@ -111,7 +123,14 @@ public final class AsyncFetchCakeData extends AsyncTask<CakeListRecyclerViewAdap
     @Override
     protected void onPostExecute(Boolean status)
     {
+        showRequiredToasts();
         mCakeListRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    private void showRequiredToasts(){
+        if (mShowNoNetToast) {
+            Toast.makeText(mAppContext, "Please check your network connection.", Toast.LENGTH_LONG).show();
+        }
     }
 }
 
