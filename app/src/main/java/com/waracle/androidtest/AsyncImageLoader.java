@@ -15,7 +15,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 
 /***
- * This is required for fetching the image without network access on the system thread.
+ * This is required for fetching the image without the use of network access on the system thread.
  *
  * Here we use an asynchronous thread to fetch the image from the given URL.
  * The class requires a valid ImageView reference. This is used to render the image once loaded.
@@ -25,9 +25,9 @@ import java.sql.Timestamp;
 public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
 
-    public AsyncImageLoader(ImageView view){ mImageView  = view; }
+    AsyncImageLoader(ImageView view){ mImageView  = view; }
 
-    private ImageView   mImageView;
+    private ImageView   mImageView;     // TODO: weak reference needed here as this leaks a context
     private String      mUrl;
     private long        mStart;
 

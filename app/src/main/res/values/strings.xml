@@ -1,20 +1,5 @@
 <resources>
     <string name="app_name">AndroidTest</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_refresh">Refresh</string>
-
-    <!--This is a test array to show the list fragment content without network access-->
-    <string-array name="list_content">Numbers>
-        <item>One</item>
-        <item>Two</item>
-        <item>Three</item>
-        <item>Four</item>
-        <item>Five</item>
-        <item>Six</item>
-        <item>Seven</item>
-        <item>Eight</item>
-        <item>Nine</item>
-        <item>Ten</item>
-    </string-array>
-
+    <string name="cake_image">cake image</string>
 </resources>
