@@ -13,12 +13,12 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
     tools:context=".CakeListFragment"
     tools:listitem="@layout/fragment_cakelist"
     android:background="#FFAABB"/>
 <!--</LinearLayout>-->
 
+    <!--app:layoutManager="LinearLayoutManager"-->
 
 
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
