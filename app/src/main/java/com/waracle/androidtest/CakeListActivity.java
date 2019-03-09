@@ -19,7 +19,7 @@ public class CakeListActivity extends Activity implements CakeListFragment.OnLis
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.cake_list_activity);
 
         // setup cache management for HTTP/HTTPS for this application
         try {
