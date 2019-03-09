@@ -93,9 +93,9 @@ public class CakeListRecyclerViewAdapter extends RecyclerView.Adapter<CakeListRe
             super(view);
 
             mView = view;
-            mImageView = (ImageView) view.findViewById(R.id.image);
-            mTitleView = (TextView) view.findViewById(R.id.title);
-            mDescView = (TextView) view.findViewById(R.id.desc);
+            mImageView = view.findViewById(R.id.image);
+            mTitleView = view.findViewById(R.id.title);
+            mDescView =  view.findViewById(R.id.desc);
         }
 
         @Override

@@ -7,6 +7,17 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.3.2'
     }
 }
+
+project.ext {
+    support = "1.0.0"
+    constraintlayout = "2.0.0-alpha3"
+    arch = "2.0.0"
+    retrofit = "2.0.2"
+    constraintLayout = "1.0.2"
+    dagger_version = "2.15"
+}
+
+
 apply plugin: 'com.android.application'
 
 repositories {
@@ -15,10 +26,9 @@ repositories {
 
 android {
     compileSdkVersion 28
-
     defaultConfig {
         applicationId "com.waracle.androidtest"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -29,31 +39,86 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
-
     def lifecycle_version = "2.0.0"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    // alternatively - just ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version" // For Kotlin use lifecycle-viewmodel-ktx
-    // alternatively - just LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
-    // alternatively - Lifecycles only (no ViewModel or LiveData). Some UI
-    //     AndroidX libraries use this lightweight import for Lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
 
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version" // For Kotlin use kapt instead of annotationProcessor
+    // alternatively - just ViewModel
+
+    //    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version" // For Kotlin use lifecycle-viewmodel-ktx
+
+    // alternatively - just LiveData
+
+    //    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+
+    // alternatively - Lifecycles only (no ViewModel or LiveData). Some UI
+
+    //     AndroidX libraries use this lightweight import for Lifecycle
+
+    //    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
+
+    //    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version" // For Kotlin use kapt instead of annotationProcessor
+
     // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    //    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     // optional - ReactiveStreams support for LiveData
-    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version" // For Kotlin use lifecycle-reactivestreams-ktx
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
+    // For Kotlin use lifecycle-reactivestreams-ktx
 
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+
+    //    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //    implementation "com.google.android.material:material:$project.support"
+
+    //    implementation "androidx.appcompat:appcompat:$project.support"
+
+    //    implementation "androidx.cardview:cardview:$project.support"
+
+    //    implementation "androidx.recyclerview:recyclerview:$project.support"
+
+    //    implementation "androidx.constraintlayout:constraintlayout:$project.constraintlayout"
+
+    //    implementation "androidx.legacy:legacy-support-v4:$project.support"
+
+    // Arch
+
+    //    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$project.arch"
+
+    //    implementation "androidx.lifecycle:lifecycle-runtime:$project.arch"
+
+    //    implementation "androidx.lifecycle:lifecycle-extensions:$project.arch"
+
+    // Retrofit
+
+    //    implementation "com.squareup.retrofit2:retrofit:$project.retrofit"
+
+    //    implementation "com.squareup.retrofit2:converter-gson:$project.retrofit"
+
+    // Dagger
+
+    //    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    //    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //    implementation "com.google.dagger:dagger:$project.dagger_version"
+
+    //    implementation "com.google.dagger:dagger-android:$project.dagger_version"
+
+    //    implementation "com.google.dagger:dagger-android-support:$project.dagger_version"
+
+    //    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13-beta-2'
 }

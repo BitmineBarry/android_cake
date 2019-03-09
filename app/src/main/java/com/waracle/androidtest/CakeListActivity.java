@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class MainActivity extends Activity implements CakeListFragment.OnListFragmentInteractionListener {
+public class CakeListActivity extends Activity implements CakeListFragment.OnListFragmentInteractionListener {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
 
     @Override
