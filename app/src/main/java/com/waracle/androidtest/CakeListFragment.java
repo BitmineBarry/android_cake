@@ -1,21 +1,27 @@
 package com.waracle.androidtest;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+//import android.app.Fragment;
+
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  * A fragment representing a list of Items.
@@ -26,6 +32,7 @@ import java.util.List;
 
 
 public class CakeListFragment extends Fragment {
+    private static final String TAG = CakeListFragment.class.getSimpleName();
     private static String JSON_URL = "https://gist.githubusercontent.com/t-reed/739df99e9d96700f17604a3971e701fa/raw/1d4dd9c5a0ec758ff5ae92b7b13fe4d57d34e1dc/waracle_cake-android-client";
     private String  jsonURL = JSON_URL;
 
@@ -72,12 +79,34 @@ public class CakeListFragment extends Fragment {
         Activity    thisActivity = getActivity();
 
         // in the future allow the option of being passed a URL here by reading it from the savedInstanceState
-
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        //
+        mCakeListViewModel = ViewModelProviders.of(this).get(CakeListViewModel.class);
+
+        // Java 7 No Lambda available
+        final Observer<ArrayList<CakeDataItem>> cakeListObserver = new Observer<ArrayList<CakeDataItem>>() {
+            @Override
+            public void onChanged(@Nullable final ArrayList<CakeDataItem> cakeList) {
+                Log.i(TAG, "Updated cakeList.... ");
+//                TextView view = (TextView)getActivity().findViewById(R.id.display_text);
+//                view.setText(s);
+            }
+        };
+        mCakeListViewModel.getCakeDataItems().observe(this, cakeListObserver);
+
+        // Java 8 we may use a Lambda
+//        mViewModel.getModelString().observe(this, modelString -> {
+//             update UI
+//            Log.e(TAG, "String to be updated to.... " + modelString);
+//            TextView view = (TextView)getActivity().findViewById(R.id.display_text);
+//            view.setText(modelString);
+//        });
+
     }
 
     @Override
@@ -106,8 +135,8 @@ public class CakeListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        final CakeListViewModel mCakeListViewModel = ViewModelProviders.of(this).get(CakeListViewModel.class);
-//        mCakeListViewModel.init(JSON_URL);
+//        CakeListViewModel viewModel = ViewModelProviders.of(this).get(CakeListViewModel.class);
+//        viewModel.init(LiveData<new String(JSON_URL)>);
     }
 
     @Override

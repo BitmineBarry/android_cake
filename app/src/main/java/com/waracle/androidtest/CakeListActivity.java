@@ -1,8 +1,11 @@
 package com.waracle.androidtest;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
 import android.app.Activity;
 import android.net.http.HttpResponseCache;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,9 +13,11 @@ import android.view.MenuItem;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.lifecycle.ViewModelProviders;
 
-public class CakeListActivity extends Activity implements CakeListFragment.OnListFragmentInteractionListener {
-    private static final String TAG = AsyncImageLoader.class.getSimpleName();
+
+public class CakeListActivity extends AppCompatActivity implements CakeListFragment.OnListFragmentInteractionListener {
+    private static final String TAG = CakeListActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +35,17 @@ public class CakeListActivity extends Activity implements CakeListFragment.OnLis
             Log.w(TAG, "HTTP response cache installation failed:" + e);
         }
 
+
+
         if (savedInstanceState == null) {
-                    getFragmentManager().beginTransaction()
+                    getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new CakeListFragment())
                     .commit();
         }
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
