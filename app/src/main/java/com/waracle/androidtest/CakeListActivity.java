@@ -19,6 +19,9 @@ import androidx.lifecycle.ViewModelProviders;
 public class CakeListActivity extends AppCompatActivity implements CakeListFragment.OnListFragmentInteractionListener {
     private static final String TAG = CakeListActivity.class.getSimpleName();
 
+    private CakeListViewModel   mCakeListViewModel = new CakeListViewModel();
+    private CakeListFragment    mCakeFragment = new CakeListFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,16 +39,11 @@ public class CakeListActivity extends AppCompatActivity implements CakeListFragm
         }
 
 
-
         if (savedInstanceState == null) {
                     getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new CakeListFragment())
-                    .commit();
+                    .add(R.id.container, mCakeFragment).commit();
         }
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,6 +63,7 @@ public class CakeListActivity extends AppCompatActivity implements CakeListFragm
         if (id == R.id.action_refresh) {
             HttpResponseCache cache = HttpResponseCache.getInstalled();
             cache.flush();
+            mCakeListViewModel.refreshCakeData();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -87,5 +86,11 @@ public class CakeListActivity extends AppCompatActivity implements CakeListFragm
     {
         Log.i(TAG, "onListFragmentInteraction called for item " + item);
     }
+
+    // this may not be the best way....
+    public CakeListViewModel getCakeListViewModel() {
+        return mCakeListViewModel;
+    }
+
 
 }

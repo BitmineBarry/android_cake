@@ -141,23 +141,25 @@ It would help, in this simple instance, to find a way of caching the reduced ima
 
 Intention is to Migrate to a ViewModel Architecture.
 
-              ---------------------
-		      | Activity/Fragment |
-              ---------------------
-                        | 
-                        | 
-           ---------------------------
-           |  ViewModel  - LiveData  |
-           ---------------------------
-                        | 
-                        | 
-               -------------------
- 		   ----| cake repository |------
-           |   -------------------     |
-           |                           |
-       ---------              ----------------------
-       | model |              | remote data source |
-       ---------              ----------------------
+              -----------------------
+		      | Activity / Fragment |
+              -----------------------
+                          | 
+                          | 
+           ------------------------------------------------
+           |  ViewModel  - LiveData accessed by fragment  |
+           |               methods  accessed by fragment  |
+           ------------------------------------------------
+                          | 
+                          | 
+            --------------------------------------------------------
+        ----| cake repository - live data observed by ViewModel    |------
+        |   |                   methods accessed by the ViewModel  |     |
+        |   --------------------------------------------------------     |
+        |                                                                |
+    ---------                                                      ----------------------
+    | model |                                                      | remote data source |
+    ---------                                                      ----------------------
 
 
 

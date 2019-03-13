@@ -25,9 +25,12 @@ import java.sql.Timestamp;
 public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
     private static final String TAG = AsyncImageLoader.class.getSimpleName();
 
-    AsyncImageLoader(ImageView view){ mImageView  = view; }
+//    AsyncImageLoader(ImageView view){ mImageView  = view; }
+    AsyncImageLoader(){
 
-    private ImageView   mImageView;     // TODO: weak reference needed here as this leaks a context
+    }
+
+//    private ImageView   mImageView;     // TODO: weak reference needed here as this leaks a context
     private String      mUrl;
     private long        mStart;
 
@@ -87,7 +90,7 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
         super.onPreExecute();
 
         // clear any existing image... better to see no image rather than the wrong image.
-        mImageView.setVisibility(View.INVISIBLE);
+//        mImageView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -118,8 +121,8 @@ public class AsyncImageLoader extends AsyncTask<String, Void, byte[]> {
                 Log.e(TAG, "No cache installed !!!!");
             }
             Bitmap bitmap = BitmapFactory.decodeByteArray(dataStream, 0, dataStream.length);
-            mImageView.setImageBitmap(bitmap);
-            mImageView.setVisibility(View.VISIBLE);
+//            mImageView.setImageBitmap(bitmap);
+//            mImageView.setVisibility(View.VISIBLE);
         }
     }
 }

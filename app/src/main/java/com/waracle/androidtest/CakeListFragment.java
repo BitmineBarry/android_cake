@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -41,6 +42,7 @@ public class CakeListFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+
     private CakeListViewModel   mCakeListViewModel;
 
     private RecyclerView                recyclerView;
@@ -81,32 +83,27 @@ public class CakeListFragment extends Fragment {
         // in the future allow the option of being passed a URL here by reading it from the savedInstanceState
         super.onCreate(savedInstanceState);
 
+
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
         //
-        mCakeListViewModel = ViewModelProviders.of(this).get(CakeListViewModel.class);
+        mCakeListViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(CakeListViewModel.class);
 
         // Java 7 No Lambda available
-        final Observer<ArrayList<CakeDataItem>> cakeListObserver = new Observer<ArrayList<CakeDataItem>>() {
+        final Observer<Integer> cakeListObserver = new Observer<Integer>() {
             @Override
-            public void onChanged(@Nullable final ArrayList<CakeDataItem> cakeList) {
-                Log.i(TAG, "Updated cakeList.... ");
+            public void onChanged(@Nullable final Integer updated) {
+                Log.i(TAG, "Updated cakeList.... " + updated);
+                // Here we tell the adapter to update the cake list
+
 //                TextView view = (TextView)getActivity().findViewById(R.id.display_text);
 //                view.setText(s);
             }
         };
-        mCakeListViewModel.getCakeDataItems().observe(this, cakeListObserver);
-
-        // Java 8 we may use a Lambda
-//        mViewModel.getModelString().observe(this, modelString -> {
-//             update UI
-//            Log.e(TAG, "String to be updated to.... " + modelString);
-//            TextView view = (TextView)getActivity().findViewById(R.id.display_text);
-//            view.setText(modelString);
-//        });
-
+        mCakeListViewModel.getCakeDataItemsUpdated().observe(this, cakeListObserver);
     }
 
     @Override
@@ -126,7 +123,7 @@ public class CakeListFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            thisAdapter = new CakeListRecyclerViewAdapter(getActivity().getApplication(), jsonURL, mListener);
+            thisAdapter = new CakeListRecyclerViewAdapter(mCakeListViewModel, jsonURL, mListener);
             recyclerView.setAdapter(thisAdapter);
         }
         return view;

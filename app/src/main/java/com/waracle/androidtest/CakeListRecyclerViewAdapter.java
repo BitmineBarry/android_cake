@@ -29,18 +29,21 @@ public class CakeListRecyclerViewAdapter extends RecyclerView.Adapter<CakeListRe
     private final String                            mUrl;
     private final OnListFragmentInteractionListener mListener;
     private List<CakeDataItem>                      mCakeData = new ArrayList<CakeDataItem>();
-    private Application                             mAppContext = null;
+//    private Application                             mAppContext = null;
 
-    public CakeListRecyclerViewAdapter(Application context, String url, OnListFragmentInteractionListener listener) {
+    public CakeListRecyclerViewAdapter(CakeListViewModel model, String url, OnListFragmentInteractionListener listener) {
         CakeDataItem thisCake;
         mUrl = url;
         mListener = listener;
-        mAppContext = context;
-        AsyncFetchCakeData cakeData = new AsyncFetchCakeData(mAppContext);
-        cakeData.execute(this);
+//        mAppContext = context;
+//        AsyncFetchCakeData cakeData = new AsyncFetchCakeData(mAppContext);
+//        cakeData.execute(this);
+
+        // fetch the cake list data from the viewmodel
+        mCakeData = model.getCakeDataItems();
     }
 
-    // receive the list of info from the AsyncFetchCakeData
+    // setter to receive an updated list of CakeData
     public void setItems(ArrayList<CakeDataItem> items) {
         mCakeData = items;
     }
@@ -59,7 +62,8 @@ public class CakeListRecyclerViewAdapter extends RecyclerView.Adapter<CakeListRe
         holder.mDescView.setText(mCakeData.get(position).getDescription());
 
         // set the image here from the URL
-        AsyncImageLoader asyncImage = new AsyncImageLoader(holder.mImageView);
+//        AsyncImageLoader asyncImage = new AsyncImageLoader(holder.mImageView);
+        AsyncImageLoader asyncImage = new AsyncImageLoader();
         if (TextUtils.isEmpty(holder.mItem.getUrl())) {
             throw new InvalidParameterException("URL is empty!");
         }
